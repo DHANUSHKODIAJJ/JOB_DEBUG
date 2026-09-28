@@ -7,6 +7,7 @@ import { checkCompanyLocation } from '../services/location.service';
 import { ApiError } from '../utils/ApiError';
 import { classifyCompanyType } from '../services/company-type.service';
 import { CreateCheckInput, CheckUrlInput } from '../validators/check.validator';
+import { Types } from 'mongoose';
 
 async function saveCheck(input: CreateCheckInput, userId: string) {
   const rules = runVerdict(input);
@@ -91,6 +92,39 @@ export async function getCheck(req: Request, res: Response, next: NextFunction) 
     const check = await JobCheck.findOne({ _id: req.params.id, user: req.userId });
     if (!check) throw ApiError.notFound('Check not found');
     res.json({ check });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getCheckStats(req: Request, res: Response, next: NextFunction) {
+  try {
+    if (!req.userId) throw ApiError.unauthorized('Not logged in');
+
+    const rows = await JobCheck.aggregate<{
+      _id: { verdict: string; category: string };
+      count: number;
+    }>([
+      { $match: { user: new Types.ObjectId(req.userId) } },
+      { $group: {
+        _id: { verdict: '$verdict', category: '$category' },
+        count: { $sum: 1 },
+      } },
+    ]);
+
+    const byVerdict = { looks_ok: 0, caution: 0, danger: 0 };
+    const byCategory = { legit: 0, consultancy: 0, institute: 0, scam: 0 };
+    let totalChecks = 0;
+
+    for (const row of rows) {
+      totalChecks += row.count;
+      const verdict = row._id.verdict as keyof typeof byVerdict;
+      const category = row._id.category as keyof typeof byCategory;
+      if (verdict in byVerdict) byVerdict[verdict] += row.count;
+      if (category in byCategory) byCategory[category] += row.count;
+    }
+
+    res.json({ totalChecks, byVerdict, byCategory });
   } catch (err) {
     next(err);
   }

@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
+import { matchRouter } from './routes/match.routes';
 import { companyRouter } from './routes/company.routes';
 import { checkRouter } from './routes/check.routes';
 import { env } from './config/env';
@@ -35,6 +36,7 @@ export function createApp() {
   app.use('/api/applications', applicationRouter);
   app.use('/api/companies', companyRouter);
   app.use('/api/checks', checkRouter);
+  app.use('/api/match', matchRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

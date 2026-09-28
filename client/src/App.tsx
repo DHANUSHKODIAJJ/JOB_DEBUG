@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-do
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { MatchPage } from './pages/MatchPage';
+
 import { ApplicationsPage } from './pages/ApplicationsPage';
 import { CheckJobPage } from './pages/CheckJobPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -23,6 +25,7 @@ function Nav() {
       <Link to="/">Dashboard</Link>
       <Link to="/applications">Applications</Link>
       <Link to="/check">Check job</Link>
+      <Link to="/match">Match JD &amp; resume</Link>
       {user && (
         <button style={{ marginLeft: 'auto' }} onClick={onLogout}>
           Log out
@@ -66,6 +69,15 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+          path="/match"
+          element={
+            <ProtectedRoute>
+              <MatchPage />
+            </ProtectedRoute>
+          }
+          />
+
         </Routes>
       </AuthProvider>
     </BrowserRouter>
