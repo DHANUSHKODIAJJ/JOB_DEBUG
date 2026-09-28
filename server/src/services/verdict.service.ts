@@ -75,7 +75,19 @@ const RULES: Rule[] = [
         ? 'Reads like a consultancy/staffing post, not a direct company opening.'
         : null,
   },
-
+   {
+    code: 'phone-only-contact',
+    severity: 'medium',
+    weight: 3,
+    test: ({ jobText, hrEmail }) => {
+      const hasIndianMobile = /(?:^|\D)(?:\+91[\s.-]?|0)?[6-9]\d{9}(?!\d)/m.test(jobText);
+      const hasEmail = Boolean(hrEmail?.trim()) || /[\w.+-]+@[\w.-]+\.[a-z]{2,}/i.test(jobText);
+      const hasWebsite = /\b(?:https?:\/\/|www\.)[^\s]+/i.test(jobText);
+      return hasIndianMobile && !hasEmail && !hasWebsite
+        ? 'Only a mobile contact was found; no email or website was provided in this post.'
+        : null;
+    },
+  },
   {
     code: 'guaranteed-job',
     severity: 'medium',
