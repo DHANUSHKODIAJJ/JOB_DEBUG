@@ -121,6 +121,48 @@ const RULES: Rule[] = [
         ? 'Job description is very short / vague - real postings describe role and skills.'
         : null,
   },
+  {
+    code: 'urgent-vague-eligibility',
+    severity: 'medium',
+    weight: 3,
+    test: ({ jobText }) =>
+      /\burgent\s+(?:requirement|opening|vacancy|hiring)\b/i.test(jobText) &&
+      /\b(?:any degree|any graduate|computer knowledge|fresh(?:er)?\s+(?:or|and)\s+experience(?:d)?)\b/i.test(jobText)
+        ? 'Urgent hiring paired with broad eligibility and little role detail.'
+        : null,
+  },
+  {
+    code: 'mixed-bulk-roles',
+    severity: 'medium',
+    weight: 3,
+    test: ({ jobText }) =>
+      /\b(?:non[\s-]?it|non[\s-]?voice)\b/i.test(jobText) &&
+      /\b(?:it|non[\s-]?it)\b/i.test(jobText) &&
+      /\b(?:non[\s-]?voice|male\s+(?:or|and)\s+female|any degree)\b/i.test(jobText)
+        ? 'Broad IT / non-IT / non-voice roles are bundled without a specific opening.'
+        : null,
+  },
+  {
+    code: 'classified-contact-hours',
+    severity: 'low',
+    weight: 1,
+    test: ({ jobText }) =>
+      /\b(?:contact|call|timings?|time)\s*[:\-]?\s*(?:\d{1,2}(?:[:.]\d{2})?\s*(?:am|pm)?\s*(?:to|-)\s*\d{1,2}(?:[:.]\d{2})?\s*(?:am|pm))\b/i.test(jobText)
+        ? 'Post gives contact hours like a classified ad, not an application process.'
+        : null,
+  },
+  {
+    code: 'missing-company-with-classified-signals',
+    severity: 'low',
+    weight: 2,
+    test: ({ companyName, jobText }) =>
+      !companyName?.trim() &&
+      /\burgent\s+(?:requirement|opening|vacancy|hiring)\b/i.test(jobText) &&
+      /(?:^|\D)(?:\+91[\s.-]?|0)?[6-9]\d{9}(?!\d)/m.test(jobText)
+        ? 'No company name was provided alongside an urgent phone-contact ad.'
+        : null,
+  },
+
 ];
 const DANGER_SCORE = 8;
 const CAUTION_SCORE = 4;
@@ -184,6 +226,16 @@ export type Category = 'legit' | 'consultancy' | 'institute' | 'scam';
 export function categorize(flags: VerdictFlag[]): Category {
   const codes = new Set(flags.map((f) => f.code));
   const scamCodes = ['fee-demand', 'no-interview', 'weekly-payout-bait', 'guaranteed-job'];
+    const classifiedSignals = [
+    'phone-only-contact',
+    'urgent-vague-eligibility',
+    'mixed-bulk-roles',
+    'classified-contact-hours',
+    'missing-company-with-classified-signals',
+  ];
+  if (classifiedSignals.filter((code) => codes.has(code)).length >= 3) return 'scam';
+
+  
   if (flags.some((f) => f.severity === 'high' && scamCodes.includes(f.code))) return 'scam';
   if (codes.has('paid-training-institute')) return 'institute';
   if (codes.has('consultancy-pattern')) return 'consultancy';

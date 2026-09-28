@@ -2,11 +2,33 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Check a job posting for risk signals before you apply, and track your applications." />
+    <meta name="theme-color" content="#eef0f2" />
+    <meta name="color-scheme" content="light" />
+
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233d5a80'/%3E%3Cpath d='M9 17l5 5 9-11' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    />
+
     <title>Job Tracker</title>
+
+    <style>
+      /* Shown before index.css loads, so there is no white flash */
+      html, body { margin: 0; background: #eef0f2; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+
+    <noscript>
+      <p style="font-family: system-ui, sans-serif; padding: 24px; color: #1b1f24;">
+        Job Tracker needs JavaScript to run. Please enable it and reload.
+      </p>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

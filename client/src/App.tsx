@@ -3,6 +3,7 @@ import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { ApplicationsPage } from './pages/ApplicationsPage';
+import { CheckJobPage } from './pages/CheckJobPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider, useAuth } from './lib/auth';
 import { logout } from './api/auth';
@@ -21,6 +22,7 @@ function Nav() {
     <nav>
       <Link to="/">Dashboard</Link>
       <Link to="/applications">Applications</Link>
+      <Link to="/check">Check job</Link>
       {user && (
         <button style={{ marginLeft: 'auto' }} onClick={onLogout}>
           Log out
@@ -53,6 +55,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <ApplicationsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/check"
+            element={
+              <ProtectedRoute>
+                <CheckJobPage />
               </ProtectedRoute>
             }
           />
