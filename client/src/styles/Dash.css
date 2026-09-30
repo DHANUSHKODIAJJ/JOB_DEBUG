@@ -1,0 +1,1287 @@
+/* =========================================================
+   JOB DEBUG — DASHBOARD
+   Glass / Editorial / High-Level Dashboard
+========================================================= */
+
+@import url(
+  "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+);
+
+
+/* =========================================================
+   DASHBOARD VARIABLES
+========================================================= */
+
+.dashboard-page {
+  --dash-bg: #f3f2ed;
+  --dash-card: rgba(255, 255, 255, 0.68);
+  --dash-card-solid: #ffffff;
+
+  --dash-text: #151515;
+  --dash-muted: #73736f;
+
+  --dash-border: rgba(20, 20, 20, 0.1);
+  --dash-border-strong: rgba(20, 20, 20, 0.16);
+
+  --dash-green: #b9f227;
+  --dash-green-soft: rgba(185, 242, 39, 0.14);
+
+  --dash-red: #ef4444;
+  --dash-red-soft: rgba(239, 68, 68, 0.1);
+
+  --dash-orange: #f59e0b;
+  --dash-orange-soft: rgba(245, 158, 11, 0.12);
+
+  --dash-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.055);
+
+  --dash-shadow-hover:
+    0 18px 45px rgba(0, 0, 0, 0.09);
+
+  --dash-display:
+    "Space Grotesk",
+    Inter,
+    system-ui,
+    sans-serif;
+
+  --dash-body:
+    "DM Sans",
+    Inter,
+    system-ui,
+    sans-serif;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.dashboard-page {
+  min-height: 100vh;
+
+  width: 100%;
+
+  position: relative;
+
+  padding:
+    120px
+    clamp(20px, 6vw, 90px)
+    80px;
+
+  background:
+    var(--dash-bg);
+
+  color:
+    var(--dash-text);
+
+  font-family:
+    var(--dash-body);
+
+  isolation: isolate;
+
+  overflow: hidden;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* =========================================================
+   ANIMATED GRID BACKGROUND
+========================================================= */
+
+.dashboard-page::before {
+  content: "";
+
+  position: absolute;
+
+  z-index: -2;
+
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    48px 48px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      black 0%,
+      transparent 88%
+    );
+
+  animation:
+    dashboardGridMove
+    30s
+    linear
+    infinite;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   AMBIENT GREEN LIGHT
+========================================================= */
+
+.dashboard-page::after {
+  content: "";
+
+  position: absolute;
+
+  z-index: -1;
+
+  width: 460px;
+  height: 460px;
+
+  top: -220px;
+  right: -160px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(185, 242, 39, 0.13);
+
+  filter:
+    blur(110px);
+
+  animation:
+    dashboardGlow
+    12s
+    ease-in-out
+    infinite
+    alternate;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   MAIN DASHBOARD CONTAINER
+========================================================= */
+
+.dashboard-page > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   NAVIGATION LINKS
+========================================================= */
+
+.dashboard-links {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  width: 100%;
+
+  max-width: 1180px;
+
+  margin:
+    0
+    auto
+    55px;
+
+  padding:
+    0;
+
+  gap: 14px;
+}
+
+
+/* individual navigation */
+
+.dashboard-links a {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 44px;
+
+  padding:
+    0
+    17px;
+
+  border:
+    1px solid var(--dash-border-strong);
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(255, 255, 255, 0.5);
+
+  color:
+    var(--dash-text);
+
+  backdrop-filter:
+    blur(16px);
+
+  -webkit-backdrop-filter:
+    blur(16px);
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.025em;
+
+  text-decoration:
+    none;
+
+  box-shadow:
+    0 5px 20px rgba(0, 0, 0, 0.035);
+
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+/* left link */
+
+.dashboard-links a:first-child {
+  background:
+    var(--dash-text);
+
+  color:
+    #ffffff;
+
+  border-color:
+    var(--dash-text);
+}
+
+
+/* right link */
+
+.dashboard-links a:last-child {
+  background:
+    rgba(255, 255, 255, 0.62);
+}
+
+
+/* hover */
+
+.dashboard-links a:hover {
+  transform:
+    translateY(-3px);
+
+  border-color:
+    rgba(20, 20, 20, 0.25);
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* first button hover */
+
+.dashboard-links a:first-child:hover {
+  background:
+    var(--dash-green);
+
+  color:
+    var(--dash-text);
+
+  border-color:
+    var(--dash-green);
+}
+
+
+/* =========================================================
+   DASHBOARD TITLE
+========================================================= */
+
+.dashboard-page > h1 {
+  width: 100%;
+
+  max-width: 1180px;
+
+  margin:
+    0
+    auto
+    10px;
+
+  font-family:
+    var(--dash-display);
+
+  font-size:
+    clamp(
+      4rem,
+      8vw,
+      7.5rem
+    );
+
+  font-weight:
+    600;
+
+  line-height:
+    0.88;
+
+  letter-spacing:
+    -0.075em;
+
+  color:
+    var(--dash-text);
+
+  animation:
+    dashboardTitleIn
+    700ms
+    cubic-bezier(.16, 1, .3, 1)
+    both;
+}
+
+
+/* =========================================================
+   MUTED INTRO
+========================================================= */
+
+.dashboard-page > .muted {
+  width: 100%;
+
+  max-width: 720px;
+
+  margin:
+    24px
+    auto
+    55px;
+
+  color:
+    var(--dash-muted);
+
+  font-size:
+    15px;
+
+  line-height:
+    1.65;
+
+  animation:
+    dashboardFadeIn
+    800ms
+    100ms
+    ease
+    both;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.dashboard-page > .form-error {
+  width:
+    min(100%, 1180px);
+
+  margin:
+    0
+    auto
+    30px;
+
+  padding:
+    14px
+    17px;
+
+  border:
+    1px solid rgba(239, 68, 68, 0.25);
+
+  border-radius:
+    12px;
+
+  background:
+    var(--dash-red-soft);
+
+  color:
+    #b42318;
+
+  font-size:
+    13px;
+
+  line-height:
+    1.5;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.dashboard-page > [role="status"] {
+  width:
+    min(100%, 1180px);
+
+  margin:
+    0
+    auto;
+
+  color:
+    var(--dash-muted);
+
+  font-size:
+    13px;
+}
+
+
+/* =========================================================
+   DASHBOARD SECTIONS
+========================================================= */
+
+.dashboard-page section {
+  width:
+    min(100%, 1180px);
+
+  margin:
+    0
+    auto
+    52px;
+
+  padding:
+    28px;
+
+  position: relative;
+
+  border:
+    1px solid var(--dash-border);
+
+  border-radius:
+    24px;
+
+  background:
+    var(--dash-card);
+
+  backdrop-filter:
+    blur(22px);
+
+  -webkit-backdrop-filter:
+    blur(22px);
+
+  box-shadow:
+    var(--dash-shadow);
+
+  animation:
+    sectionReveal
+    750ms
+    cubic-bezier(.16, 1, .3, 1)
+    both;
+}
+
+
+/* second section animation */
+
+.dashboard-page section:nth-of-type(2) {
+  animation-delay:
+    100ms;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.dashboard-page section h2 {
+  margin:
+    0
+    0
+    25px;
+
+  font-family:
+    var(--dash-display);
+
+  font-size:
+    clamp(
+      1.4rem,
+      2.5vw,
+      2rem
+    );
+
+  font-weight:
+    600;
+
+  line-height:
+    1.1;
+
+  letter-spacing:
+    -0.045em;
+}
+
+
+/* little green marker */
+
+.dashboard-page section h2::before {
+  content: "";
+
+  display: inline-block;
+
+  width:
+    8px;
+
+  height:
+    8px;
+
+  margin:
+    0
+    10px
+    3px
+    0;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--dash-green);
+
+  box-shadow:
+    0 0 0 4px
+    var(--dash-green-soft);
+}
+
+
+/* =========================================================
+   STATS GRID
+========================================================= */
+
+.dashboard-stats {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap:
+    12px;
+}
+
+
+/* =========================================================
+   STAT PANEL — GLASS
+========================================================= */
+
+.dashboard-stat {
+  min-height:
+    170px;
+
+  padding:
+    22px;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  justify-content:
+    space-between;
+
+  position:
+    relative;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid
+    rgba(20, 20, 20, 0.09);
+
+  border-radius:
+    17px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.48)
+    );
+
+  backdrop-filter:
+    blur(20px);
+
+  -webkit-backdrop-filter:
+    blur(20px);
+
+  box-shadow:
+    0 6px 25px
+    rgba(0, 0, 0, 0.035);
+
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
+}
+
+
+/* top green line */
+
+.dashboard-stat::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  height:
+    3px;
+
+  background:
+    var(--dash-green);
+
+  transform:
+    scaleX(0);
+
+  transform-origin:
+    left;
+
+  transition:
+    transform 280ms ease;
+}
+
+
+/* subtle light */
+
+.dashboard-stat::after {
+  content: "";
+
+  position: absolute;
+
+  width:
+    90px;
+
+  height:
+    90px;
+
+  top:
+    -45px;
+
+  right:
+    -45px;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--dash-green-soft);
+
+  filter:
+    blur(10px);
+
+  transition:
+    transform 300ms ease;
+}
+
+
+/* hover */
+
+.dashboard-stat:hover {
+  transform:
+    translateY(-5px);
+
+  border-color:
+    rgba(20, 20, 20, 0.16);
+
+  box-shadow:
+    var(--dash-shadow-hover);
+
+  background:
+    rgba(255, 255, 255, 0.88);
+}
+
+
+.dashboard-stat:hover::before {
+  transform:
+    scaleX(1);
+}
+
+
+.dashboard-stat:hover::after {
+  transform:
+    scale(1.5);
+}
+
+
+/* =========================================================
+   STAT NUMBER
+========================================================= */
+
+.dashboard-stat strong {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  display:
+    block;
+
+  font-family:
+    var(--dash-display);
+
+  font-size:
+    clamp(
+      3rem,
+      5vw,
+      4.8rem
+    );
+
+  font-weight:
+    600;
+
+  line-height:
+    0.9;
+
+  letter-spacing:
+    -0.08em;
+
+  color:
+    var(--dash-text);
+}
+
+
+/* =========================================================
+   STAT LABEL
+========================================================= */
+
+.dashboard-stat span {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  display:
+    block;
+
+  margin-top:
+    20px;
+
+  color:
+    var(--dash-muted);
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.35;
+
+  letter-spacing:
+    0.07em;
+
+  text-transform:
+    uppercase;
+}
+
+
+/* =========================================================
+   VERDICT-SPECIFIC VISUAL STATES
+========================================================= */
+
+/* Looks OK */
+
+.dashboard-stat:nth-child(2)::before {
+  background:
+    #8bcf00;
+}
+
+
+/* Caution */
+
+.dashboard-stat:nth-child(3)::before {
+  background:
+    var(--dash-orange);
+}
+
+.dashboard-stat:nth-child(3)::after {
+  background:
+    var(--dash-orange-soft);
+}
+
+
+/* Danger */
+
+.dashboard-stat:nth-child(4)::before {
+  background:
+    var(--dash-red);
+}
+
+.dashboard-stat:nth-child(4)::after {
+  background:
+    var(--dash-red-soft);
+}
+
+
+/* =========================================================
+   CATEGORY NOTE
+========================================================= */
+
+.dashboard-note {
+  max-width:
+    850px;
+
+  margin:
+    22px
+    0
+    0;
+
+  padding:
+    14px
+    16px;
+
+  border:
+    1px solid
+    rgba(20, 20, 20, 0.07);
+
+  border-radius:
+    11px;
+
+  background:
+    rgba(255, 255, 255, 0.38);
+
+  color:
+    var(--dash-muted);
+
+  font-size:
+    12px;
+
+  line-height:
+    1.6;
+}
+
+
+/* =========================================================
+   CATEGORY SECTION COLORS
+========================================================= */
+
+.dashboard-page section:nth-of-type(2)
+.dashboard-stat:nth-child(1)::before {
+  background:
+    var(--dash-red);
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .dashboard-page {
+    padding:
+      110px
+      30px
+      60px;
+  }
+
+
+  .dashboard-page > h1 {
+    font-size:
+      clamp(
+        3.5rem,
+        8vw,
+        6rem
+      );
+  }
+
+
+  .dashboard-stats {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+
+  .dashboard-stat {
+    min-height:
+      160px;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 680px) {
+
+  .dashboard-page {
+    min-height:
+      100vh;
+
+    padding:
+      90px
+      16px
+      45px;
+  }
+
+
+  /* navigation */
+
+  .dashboard-links {
+    margin-bottom:
+      40px;
+
+    gap:
+      8px;
+  }
+
+
+  .dashboard-links a {
+    flex:
+      1;
+
+    min-height:
+      42px;
+
+    padding:
+      0
+      10px;
+
+    font-size:
+      9px;
+
+    text-align:
+      center;
+  }
+
+
+  /* title */
+
+  .dashboard-page > h1 {
+    font-size:
+      clamp(
+        3rem,
+        16vw,
+        4.5rem
+      );
+
+    line-height:
+      0.9;
+  }
+
+
+  .dashboard-page > .muted {
+    margin:
+      18px
+      auto
+      35px;
+
+    font-size:
+      13px;
+
+    line-height:
+      1.55;
+  }
+
+
+  /* sections */
+
+  .dashboard-page section {
+    margin-bottom:
+      30px;
+
+    padding:
+      18px;
+
+    border-radius:
+      18px;
+
+    backdrop-filter:
+      blur(16px);
+
+    -webkit-backdrop-filter:
+      blur(16px);
+  }
+
+
+  .dashboard-page section h2 {
+    margin-bottom:
+      18px;
+
+    font-size:
+      1.35rem;
+  }
+
+
+  /* stats */
+
+  .dashboard-stats {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      8px;
+  }
+
+
+  .dashboard-stat {
+    min-height:
+      135px;
+
+    padding:
+      17px;
+
+    border-radius:
+      14px;
+  }
+
+
+  .dashboard-stat strong {
+    font-size:
+      clamp(
+        2.5rem,
+        11vw,
+        3.4rem
+      );
+  }
+
+
+  .dashboard-stat span {
+    margin-top:
+      15px;
+
+    font-size:
+      8px;
+
+    letter-spacing:
+      0.045em;
+  }
+
+
+  .dashboard-note {
+    margin-top:
+      15px;
+
+    padding:
+      11px
+      12px;
+
+    font-size:
+      11px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .dashboard-page {
+    padding:
+      80px
+      12px
+      30px;
+  }
+
+
+  .dashboard-links {
+    gap:
+      6px;
+
+    margin-bottom:
+      32px;
+  }
+
+
+  .dashboard-links a {
+    min-height:
+      40px;
+
+    padding:
+      0
+      7px;
+
+    font-size:
+      8px;
+  }
+
+
+  .dashboard-page > h1 {
+    font-size:
+      2.9rem;
+  }
+
+
+  .dashboard-page section {
+    padding:
+      15px;
+  }
+
+
+  .dashboard-page section h2 {
+    font-size:
+      1.2rem;
+  }
+
+
+  .dashboard-stats {
+    gap:
+      6px;
+  }
+
+
+  .dashboard-stat {
+    min-height:
+      120px;
+
+    padding:
+      14px;
+  }
+
+
+  .dashboard-stat strong {
+    font-size:
+      2.35rem;
+  }
+
+
+  .dashboard-stat span {
+    font-size:
+      7px;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.dashboard-links a:focus-visible {
+  outline:
+    2px solid
+    var(--dash-text);
+
+  outline-offset:
+    3px;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes dashboardGridMove {
+
+  from {
+    background-position:
+      0 0;
+  }
+
+  to {
+    background-position:
+      48px 48px;
+  }
+}
+
+
+@keyframes dashboardGlow {
+
+  from {
+    transform:
+      translate(0, 0)
+      scale(1);
+  }
+
+  to {
+    transform:
+      translate(-80px, 80px)
+      scale(1.25);
+  }
+}
+
+
+@keyframes dashboardTitleIn {
+
+  from {
+    opacity:
+      0;
+
+    transform:
+      translateY(25px);
+  }
+
+  to {
+    opacity:
+      1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+@keyframes dashboardFadeIn {
+
+  from {
+    opacity:
+      0;
+  }
+
+  to {
+    opacity:
+      1;
+  }
+}
+
+
+@keyframes sectionReveal {
+
+  from {
+    opacity:
+      0;
+
+    transform:
+      translateY(30px);
+  }
+
+  to {
+    opacity:
+      1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.01ms !important;
+  }
+}

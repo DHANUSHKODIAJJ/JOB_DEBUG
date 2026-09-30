@@ -21,7 +21,45 @@ interface Rule {
   weight: number;
   test: (input: CheckInput) => string | null; 
 }
+const MONEY_AMOUNT = /(?:\b(?:rs\.?|inr|rupees?)\s*\d[\d,]*(?:\.\d{1,2})?|₹\s*\d[\d,]*(?:\.\d{1,2})?|\b\d[\d,]*(?:\.\d{1,2})?\s*(?:rs\.?|inr|rupees?)\b)/i;
+function hasCandidateFeeDemand(jobText: string): boolean {
+  const text = jobText
+    .toLowerCase()
+    .replace(/\btraning\b/g, 'training')
+    .replace(/\brs\./g, 'rs')
+    .replace(/(\d),(?=\d{3}\b)/g, '$1');
 
+  // Keep negation local. "No registration fee, but pay for training" is still risky.
+  const clauses = text.split(/[!?;,\n]+|\.(?=\s|$)|\b(?:but|however|yet)\b|\band(?=\s+(?:pay|payment|deposit|transfer|send|remit|salary|you|candidates?)\b)/);
+
+  return clauses.some((clause) => {
+    const paymentText = clause
+      .replace(/\b(?:we|company|employer)\s+(?:will\s+)?(?:pay|cover|reimburse)\s+(?:all\s+|the\s+|your\s+)?(?:training|registration|travel)\s+(?:fees?|expenses?|costs?)\b/g, '')
+      .replace(/\b(?:no|zero|without)\s+(?:registration|application|processing|training|placement|joining|recruitment|service|security|refundable)(?:\s+(?:or|and)\s+(?:registration|application|processing|training|placement|joining|recruitment|service|security|refundable))+\s+(?:fees?|charges?|deposits?|payments?)\b/g, '')
+      .replace(/\b(?:no|zero|without)\s+(?:(?:registration|application|processing|training|placement|joining|recruitment|service|security|refundable)\s+)*(?:fees?|charges?|deposits?|payments?)\b/g, '')
+      .replace(/\b(?:fees?|charges?|deposits?|payments?)\s+(?:are\s+|is\s+)?(?:not required|not payable|not charged|waived)\b/g, '')
+      .replace(/\b(?:do not|don't|never|not required to|need not)\s+(?:pay|charge|collect|deposit|transfer|send|remit)\b[^.!?;]*$/g, '');
+
+    const namedFee = /\b(?:registration|application|processing|training|placement|joining|recruitment|service|security|refundable)\s+(?:fees?|charges?|deposits?|payments?)\b/.test(paymentText);
+    const candidateCharge = /\b(?:fees?|charges?|deposits?)\s+(?:(?:required|payable|mandatory|of)\b|[:=])|\b(?:pay|collect|charge)\s+(?:a\s+|an\s+|the\s+)?(?:fees?|charges?|deposits?)\b/.test(paymentText);
+    const payForAccess = /\b(?:pay|payment|deposit|transfer|send|remit)\b.{0,60}\b(?:training|registration|placement|joining|job offer|offer letter|interview|secure (?:a |the )?job)\b/.test(paymentText);
+
+    const employerPayment = /\b(?:we|company|employer)\s+(?:will\s+)?(?:pay|cover|reimburse)\b/.test(paymentText);
+    if (namedFee || candidateCharge || (payForAccess && !employerPayment)) return true;
+
+    // An amount alone can be salary. Look for a payment action near it.
+    const payments = paymentText.matchAll(/\b(?:pay|payment|deposit|transfer|send|remit)\b/g);
+    for (const payment of payments) {
+      const before = paymentText.slice(0, payment.index).trimEnd();
+      const after = paymentText.slice(payment.index + payment[0].length, payment.index + payment[0].length + 60);
+      const employerPays = /\b(?:we|company|employer)(?:\s+will)?$/.test(before);
+      const compensation = /\b(?:salary|stipend|allowance|reimbursement|per month|per annum|monthly|annually)\b/.test(after) || /\b(?:salary|stipend|allowance|reimbursement|basic|gross|net|annual|monthly)\s*[:=-]?\s*$/.test(before);
+      if (MONEY_AMOUNT.test(after) && !employerPays && !compensation) return true;
+    }
+
+    return false;
+  });
+}
 const FREE_MAIL = ['gmail.com', 'yahoo.com', 'yahoo.in', 'outlook.com', 'hotmail.com', 'rediffmail.com'];
 
 
@@ -174,6 +212,33 @@ const RULES: Rule[] = [
         ? 'No company name was provided alongside an urgent phone-contact ad.'
         : null,
   },
+   {
+    code: 'fee-demand',
+    severity: 'high',
+    weight: 10,
+    test: ({ jobText }) =>
+      hasCandidateFeeDemand(jobText)
+        ? 'Possible candidate payment demand (fee, training charge or deposit). Do not pay to get a job; verify the offer through the employer.'
+        : null,
+  },
+
+   {
+    code: 'poor-writing-quality',
+    severity: 'medium',
+    weight: 4,
+    test: ({ jobText }) => {
+      // Check the original text, before the fee helper corrects "traning".
+      const mistakes = jobText.toLowerCase().match(
+        /\b(?:traning|vaccancy|recuritment|requirment|exprience|canditate|salery|imediate|garenteed|interveiw|regestration)\b/g,
+      ) ?? [];
+      const distinctMistakes = new Set(mistakes);
+      return mistakes.length >= 3 && distinctMistakes.size >= 2
+        ? 'Several common spelling errors were found. Review the post carefully; writing quality alone does not prove a scam.'
+        : null;
+    },
+  },
+
+
 
 ];
 const DANGER_SCORE = 8;

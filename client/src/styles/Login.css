@@ -1,0 +1,1490 @@
+/* =========================================================
+   JOB DEBUG LOGIN
+   StatCard + Editorial SaaS
+========================================================= */
+
+@import url(
+  "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+);
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+  --jd-background: #f6f5f1;
+  --jd-card: #ffffff;
+
+  --jd-black: #111111;
+  --jd-text: #181818;
+
+  --jd-muted: #737373;
+  --jd-subtle: #9a9a9a;
+
+  --jd-border: #e4e4e0;
+
+  --jd-green: #b9f227;
+  --jd-green-light: #efffd0;
+
+  --jd-red: #ef4444;
+  --jd-red-light: #fee2e2;
+
+  --jd-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 30px rgba(0, 0, 0, 0.05);
+
+  --jd-shadow-hover:
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    0 18px 45px rgba(0, 0, 0, 0.09);
+
+  --jd-display:
+    "Space Grotesk",
+    Inter,
+    system-ui,
+    sans-serif;
+
+  --jd-body:
+    "DM Sans",
+    Inter,
+    system-ui,
+    sans-serif;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+
+  margin: 0;
+
+  background: var(--jd-background);
+
+  color: var(--jd-text);
+
+  font-family: var(--jd-body);
+
+  -webkit-font-smoothing: antialiased;
+
+  overflow-x: hidden;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.login-page {
+  min-height: 100vh;
+
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.2fr)
+    minmax(350px, 0.8fr);
+
+  align-items: center;
+
+  gap: clamp(55px, 8vw, 120px);
+
+  padding:
+    155px
+    clamp(28px, 7vw, 100px)
+    70px;
+
+  isolation: isolate;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   ANIMATED GRID BACKGROUND
+========================================================= */
+
+.login-page::before {
+  content: "";
+
+  position: absolute;
+
+  z-index: -2;
+
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    48px 48px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      black,
+      transparent 88%
+    );
+
+  animation:
+    backgroundGrid
+    28s
+    linear
+    infinite;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   FLOATING BACKGROUND LIGHT
+========================================================= */
+
+.login-page::after {
+  content: "";
+
+  position: absolute;
+
+  z-index: -1;
+
+  width: 420px;
+  height: 420px;
+
+  left: -200px;
+  bottom: -180px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(185, 242, 39, 0.18);
+
+  filter:
+    blur(100px);
+
+  animation:
+    floatingLight
+    12s
+    ease-in-out
+    infinite
+    alternate;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.brand-logo {
+  position: absolute;
+
+  z-index: 20;
+
+  top: 28px;
+  left: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  transform:
+    translateX(-50%);
+
+  animation:
+    logoEntrance
+    800ms
+    cubic-bezier(.16, 1, .3, 1)
+    both;
+}
+
+
+.brand-logo img {
+  display: block;
+
+  width: 165px;
+
+  height: auto;
+
+  object-fit: contain;
+
+  mix-blend-mode: multiply;
+
+  transition:
+    transform 300ms ease;
+}
+
+
+.brand-logo:hover img {
+  transform:
+    scale(1.035)
+    translateY(-2px);
+}
+
+
+/* =========================================================
+   INTRO SECTION
+========================================================= */
+
+.login-intro,
+.login-page > section {
+  width: 100% !important;
+
+  max-width: 780px !important;
+
+  margin: 0 !important;
+
+  position: relative;
+
+  z-index: 2;
+
+  animation:
+    introEntrance
+    850ms
+    cubic-bezier(.16, 1, .3, 1)
+    both;
+}
+
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.login-intro > .stat-label,
+.login-page > section > .stat-label {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin:
+    0
+    0
+    22px;
+
+  padding:
+    7px
+    11px;
+
+  border:
+    1px solid var(--jd-border);
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(255, 255, 255, 0.7);
+
+  color:
+    var(--jd-text);
+
+  font-size:
+    10px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.12em;
+
+  line-height:
+    1;
+
+  text-transform:
+    uppercase;
+}
+
+
+.login-intro > .stat-label::before,
+.login-page > section > .stat-label::before {
+  content: "";
+
+  width: 6px;
+  height: 6px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background:
+    var(--jd-green);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(185, 242, 39, 0.18);
+}
+
+
+/* =========================================================
+   HERO HEADING
+========================================================= */
+
+.login-intro h2,
+.login-page > section h2 {
+  max-width: 760px;
+
+  margin: 0;
+
+  font-family:
+    var(--jd-display);
+
+  font-size:
+    clamp(
+      4rem,
+      7.5vw,
+      7.8rem
+    );
+
+  font-weight:
+    600;
+
+  line-height:
+    0.88;
+
+  letter-spacing:
+    -0.075em;
+
+  text-wrap:
+    balance;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.intro-description,
+.login-page > section > p:not(.stat-label) {
+  max-width: 540px;
+
+  margin:
+    27px
+    0
+    0;
+
+  color:
+    var(--jd-muted);
+
+  font-size:
+    16px;
+
+  line-height:
+    1.65;
+}
+
+
+/* =========================================================
+   STAT CARD GRID
+========================================================= */
+
+.bento-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 16px;
+
+  margin-top:
+    38px !important;
+}
+
+
+/* =========================================================
+   STAT CARD
+========================================================= */
+
+.metric-card {
+  min-height: 215px;
+
+  padding:
+    24px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: flex-start;
+
+  position: relative;
+
+  background:
+    rgba(255, 255, 255, 0.9);
+
+  border:
+    1px solid var(--jd-border) !important;
+
+  border-radius:
+    16px !important;
+
+  box-shadow:
+    var(--jd-shadow) !important;
+
+  overflow: hidden;
+
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+
+/* top accent */
+
+.metric-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  height: 3px;
+
+  background:
+    var(--jd-green);
+
+  transform:
+    scaleX(0);
+
+  transform-origin:
+    left;
+
+  transition:
+    transform 300ms ease;
+}
+
+
+.metric-card:hover {
+  transform:
+    translateY(-5px);
+
+  border-color:
+    #d1d1cc !important;
+
+  box-shadow:
+    var(--jd-shadow-hover) !important;
+}
+
+
+.metric-card:hover::before {
+  transform:
+    scaleX(1);
+}
+
+
+/* =========================================================
+   STAT NUMBER
+========================================================= */
+
+.metric-card .stat-value {
+  display: block;
+
+  margin: 0;
+
+  color:
+    var(--jd-black);
+
+  font-family:
+    var(--jd-display);
+
+  font-size:
+    clamp(
+      3.2rem,
+      5vw,
+      4.7rem
+    );
+
+  font-weight:
+    600;
+
+  line-height:
+    0.9;
+
+  letter-spacing:
+    -0.08em;
+}
+
+
+/* =========================================================
+   CARD LABEL
+========================================================= */
+
+.metric-card .stat-label {
+  display: block;
+
+  margin:
+    18px
+    0
+    6px;
+
+  color: #ffffff;
+    font-size: 15px;
+
+
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.08em;
+
+  line-height:
+    1.35;
+
+  text-transform:
+    uppercase;
+}
+
+
+/* =========================================================
+   CARD DESCRIPTION
+========================================================= */
+
+.metric-card p {
+  max-width:
+    240px;
+
+  margin:
+    0;
+
+  color:
+    var(--jd-muted);
+
+  font-size:
+    12px;
+
+  line-height:
+    1.5;
+}
+
+
+/* =========================================================
+   LOGIN CARD
+========================================================= */
+
+.login-card,
+.login-page > .card {
+  width:
+    100% !important;
+
+  max-width:
+    430px !important;
+
+  margin:
+    0 !important;
+
+  padding:
+    36px;
+
+  justify-self:
+    end;
+
+  position:
+    relative;
+
+  z-index:
+    5;
+
+  background:
+    rgba(255, 255, 255, 0.94);
+
+  border:
+    1px solid var(--jd-border);
+
+  border-radius:
+    20px !important;
+
+  box-shadow:
+    0 20px 60px
+    rgba(0, 0, 0, 0.08);
+
+  backdrop-filter:
+    blur(8px);
+
+  animation:
+    loginEntrance
+    850ms
+    150ms
+    cubic-bezier(.16, 1, .3, 1)
+    both;
+}
+
+
+/* =========================================================
+   LOGIN CARD ACCENT
+========================================================= */
+
+.login-card::before,
+.login-page > .card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 32px;
+
+  width: 55px;
+
+  height: 4px;
+
+  background:
+    var(--jd-green);
+
+  border-radius:
+    0 0 5px 5px;
+}
+
+
+/* =========================================================
+   LOGIN TITLE
+========================================================= */
+
+.login-card h1,
+.login-page > .card h1 {
+  margin:
+    0
+    8px;
+
+  font-family:
+    var(--jd-display);
+
+  font-size:
+    clamp(
+      2.6rem,
+      4vw,
+      3.8rem
+    );
+
+  font-weight:
+    600;
+
+  line-height:
+    0.92;
+
+  letter-spacing:
+    -0.07em;
+}
+
+
+/* =========================================================
+   LOGIN DESCRIPTION
+========================================================= */
+
+.login-card > p,
+.login-page > .card > p {
+  margin:
+    0;
+
+  color:
+    var(--jd-muted);
+
+  font-size:
+    14px;
+
+  line-height:
+    1.6;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.login-card form,
+.login-page > .card form {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    12px;
+
+  margin-top:
+    24px !important;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.login-card input,
+.login-page > .card input {
+  width:
+    100%;
+
+  height:
+    54px;
+
+  padding:
+    0
+    15px;
+
+  color:
+    var(--jd-text);
+
+  background:
+    #f8f8f6;
+
+  border:
+    1px solid var(--jd-border);
+
+  border-radius:
+    10px;
+
+  outline:
+    none;
+
+  font-size:
+    14px;
+
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.login-card input::placeholder,
+.login-page > .card input::placeholder {
+  color:
+    #9b9b96;
+}
+
+
+.login-card input:hover,
+.login-page > .card input:hover {
+  background:
+    #ffffff;
+
+  border-color:
+    #ccccca;
+}
+
+
+.login-card input:focus,
+.login-page > .card input:focus {
+  background:
+    #ffffff;
+
+  border-color:
+    var(--jd-black);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(185, 242, 39, 0.25);
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.login-card button,
+.login-page > .card button {
+  width:
+    100%;
+
+  height:
+    54px;
+
+  margin-top:
+    4px;
+
+  border:
+    0;
+
+  border-radius:
+    10px;
+
+  background:
+    var(--jd-black);
+
+  color:
+    #ffffff;
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.1em;
+
+  text-transform:
+    uppercase;
+
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.login-card button:hover,
+.login-page > .card button:hover {
+  background:
+    #292929;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 8px 20px
+    rgba(0, 0, 0, 0.12);
+}
+
+
+.login-card button:active,
+.login-page > .card button:active {
+  transform:
+    translateY(0);
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.error {
+  width:
+    100%;
+
+  margin:
+    0 0 2px !important;
+
+  padding:
+    11px
+    12px;
+
+  border:
+    1px solid
+    rgba(239, 68, 68, 0.25);
+
+  border-radius:
+    9px;
+
+  background:
+    var(--jd-red-light);
+
+  color:
+    #b42318;
+
+  font-size:
+    12px !important;
+
+  line-height:
+    1.45 !important;
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+.register-text,
+.login-page > .card > p:last-child {
+  margin-top:
+    20px !important;
+
+  padding-top:
+    18px;
+
+  border-top:
+    1px solid var(--jd-border);
+
+  font-size:
+    12px !important;
+
+  text-align:
+    center;
+}
+
+
+.register-text a,
+.login-page > .card > p:last-child a {
+  color:
+    var(--jd-black);
+
+  font-weight:
+    700;
+
+  text-decoration:
+    underline;
+
+  text-decoration-thickness:
+    1px;
+
+  text-underline-offset:
+    3px;
+
+  transition:
+    color 150ms ease;
+}
+
+
+.register-text a:hover,
+.login-page > .card > p:last-child a:hover {
+  color:
+    #769500;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes logoEntrance {
+  from {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -18px)
+      scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translate(-50%, 0)
+      scale(1);
+  }
+}
+
+
+@keyframes introEntrance {
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(-35px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(0);
+  }
+}
+
+
+@keyframes loginEntrance {
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(35px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(0)
+      scale(1);
+  }
+}
+
+
+@keyframes backgroundGrid {
+  from {
+    background-position:
+      0 0;
+  }
+
+  to {
+    background-position:
+      48px 48px;
+  }
+}
+
+
+@keyframes floatingLight {
+  from {
+    transform:
+      translate(0, 0)
+      scale(1);
+  }
+
+  to {
+    transform:
+      translate(120px, -70px)
+      scale(1.25);
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+  .login-page {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(320px, 0.75fr);
+
+    gap:
+      45px;
+
+    padding:
+      145px
+      35px
+      60px;
+  }
+
+
+  .login-intro h2,
+  .login-page > section h2 {
+    font-size:
+      clamp(
+        3.5rem,
+        7vw,
+        6rem
+      );
+  }
+
+
+  .bento-grid {
+    gap:
+      10px;
+  }
+
+
+  .metric-card {
+    padding:
+      19px;
+
+    min-height:
+      190px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+
+  .login-page {
+    min-height:
+      100vh;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+
+    gap:
+      58px;
+
+    padding:
+      140px
+      18px
+      40px;
+  }
+
+
+  /* -----------------------------------------
+     LOGO
+  ----------------------------------------- */
+
+  .brand-logo {
+    top:
+      22px;
+  }
+
+
+  .brand-logo img {
+    width:
+      125px;
+  }
+
+
+  /* -----------------------------------------
+     HERO
+  ----------------------------------------- */
+
+  .login-intro,
+  .login-page > section {
+    width:
+      100% !important;
+  }
+
+
+  .login-intro > .stat-label,
+  .login-page > section > .stat-label {
+    margin-bottom:
+      18px;
+
+    font-size:
+      9px;
+  }
+
+
+  .login-intro h2,
+  .login-page > section h2 {
+    font-size:
+      clamp(
+        3rem,
+        15vw,
+        4.8rem
+      );
+
+    line-height:
+      0.9;
+
+    letter-spacing:
+      -0.065em;
+  }
+
+
+  .intro-description,
+  .login-page > section > p:not(.stat-label) {
+    margin-top:
+      20px;
+
+    font-size:
+      14px;
+
+    line-height:
+      1.55;
+  }
+
+
+  /* -----------------------------------------
+     STAT CARDS
+  ----------------------------------------- */
+
+  .bento-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap:
+      8px;
+
+    margin-top:
+      30px !important;
+  }
+
+
+  .metric-card {
+    min-height:
+      150px;
+
+    padding:
+      16px
+      13px;
+
+    border-radius:
+      13px !important;
+  }
+
+
+  .metric-card .stat-value {
+    font-size:
+      clamp(
+        2.2rem,
+        11vw,
+        3.2rem
+      );
+  }
+
+
+  .metric-card .stat-label {
+    margin-top:
+      15px;
+
+    font-size:
+      7px;
+
+    line-height:
+      1.3;
+  }
+
+
+  .metric-card p {
+    display:
+      none;
+  }
+
+
+  /* -----------------------------------------
+     LOGIN
+  ----------------------------------------- */
+
+  .login-card,
+  .login-page > .card {
+    width:
+      100% !important;
+
+    max-width:
+      none !important;
+
+    padding:
+      30px
+      20px;
+
+    align-self:
+      stretch;
+
+    border-radius:
+      17px !important;
+
+    box-shadow:
+      0 15px 45px
+      rgba(0, 0, 0, 0.07);
+  }
+
+
+  .login-card h1,
+  .login-page > .card h1 {
+    font-size:
+      clamp(
+        2.7rem,
+        13vw,
+        3.7rem
+      );
+  }
+
+
+  .login-card input,
+  .login-page > .card input,
+  .login-card button,
+  .login-page > .card button {
+    height:
+      53px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 430px) {
+
+  .login-page {
+    gap:
+      48px;
+
+    padding:
+      120px
+      14px
+      30px;
+  }
+
+
+  .brand-logo {
+    top:
+      18px;
+  }
+
+
+  .brand-logo img {
+    width:
+      108px;
+  }
+
+
+  .login-intro h2,
+  .login-page > section h2 {
+    font-size:
+      clamp(
+        2.65rem,
+        16vw,
+        4rem
+      );
+  }
+
+
+  .bento-grid {
+    gap:
+      6px;
+
+    margin-top:
+      27px !important;
+  }
+
+
+  .metric-card {
+    min-height:
+      130px;
+
+    padding:
+      13px
+      10px;
+
+    border-radius:
+      11px !important;
+  }
+
+
+  .metric-card .stat-value {
+    font-size:
+      2.2rem;
+  }
+
+
+  .metric-card .stat-label {
+    margin-top:
+      13px;
+
+    font-size:
+      6.5px;
+
+    letter-spacing:
+      0.04em;
+  }
+
+
+  .login-card,
+  .login-page > .card {
+    padding:
+      27px
+      16px;
+  }
+
+
+  .login-card h1,
+  .login-page > .card h1 {
+    font-size:
+      2.65rem;
+  }
+
+
+  .login-card > p,
+  .login-page > .card > p {
+    font-size:
+      13px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 350px) {
+
+  .login-page {
+    padding-left:
+      11px;
+
+    padding-right:
+      11px;
+  }
+
+
+  .bento-grid {
+    gap:
+      4px;
+  }
+
+
+  .metric-card {
+    padding:
+      11px
+      7px;
+  }
+
+
+  .metric-card .stat-value {
+    font-size:
+      1.9rem;
+  }
+
+
+  .metric-card .stat-label {
+    font-size:
+      6px;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline:
+    2px solid
+    var(--jd-black);
+
+  outline-offset:
+    3px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.01ms !important;
+
+    scroll-behavior:
+      auto !important;
+  }
+}

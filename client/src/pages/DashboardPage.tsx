@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api/client';
+import '../styles/Dash.css'
 
 type CheckStats = {
   totalChecks: number;
@@ -24,6 +25,10 @@ export function DashboardPage() {
 
   return (
     <div className="page dashboard-page">
+      <p className="dashboard-links">
+        <Link to="/check">Check another job</Link>
+        <Link to="/applications">Go to applications</Link>
+      </p>
       <h1>Dashboard</h1>
       <p className="muted">Your saved job checks at a glance. These counts belong to your account.</p>
       {error && <p className="form-error" role="alert">{error}</p>}
@@ -51,10 +56,7 @@ export function DashboardPage() {
           </section>
         </>
       )}
-      <p className="dashboard-links">
-        <Link to="/check">Check another job</Link>
-        <Link to="/applications">Go to applications</Link>
-      </p>
+     
     </div>
   );
 }

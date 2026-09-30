@@ -24,7 +24,9 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="page">
+    
+    <div className="login-page">
+      
       <div className="card" style={{ maxWidth: 420, margin: '4rem auto' }}>
         <h1>Create account</h1>
         <form onSubmit={onSubmit} style={{ marginTop: '1.5rem' }}>

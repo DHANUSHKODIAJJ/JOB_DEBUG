@@ -2,6 +2,9 @@ import { useState, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../api/auth';
 import { useAuth } from '../lib/auth';
+import logo from '../asserts/logo.png';
+
+import '../styles/Login.css'
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -27,9 +30,12 @@ export function LoginPage() {
   }
 
   return (
-    <div className="page">
+    <div className="login-page">
+      <div className="brand-logo">
+      <img src={logo} alt="Job Debug" />
+      </div>
       <section aria-label="Job Tracker features" style={{ maxWidth: 760, margin: '0 auto' }}>
-        <p className="stat-label">Job Tracker</p>
+     
         <h2>Know what you're applying to.</h2>
         <p>Track the pipeline and check a job post before you apply.</p>
         <div className="bento-grid" style={{ marginTop: 24 }}>

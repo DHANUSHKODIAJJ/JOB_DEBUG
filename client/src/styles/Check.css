@@ -1,0 +1,1718 @@
+/* =========================================================
+   JOB DEBUG — CHECK JOB PAGE
+   Professional Job Analysis Interface
+========================================================= */
+
+@import url(
+  "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+);
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+  --check-bg: #f3f2ed;
+  --check-card: rgba(255, 255, 255, 0.76);
+  --check-white: #ffffff;
+
+  --check-black: #111111;
+  --check-text: #181818;
+
+  --check-muted: #73736f;
+  --check-subtle: #969690;
+
+  --check-border: rgba(20, 20, 20, 0.10);
+  --check-border-strong: rgba(20, 20, 20, 0.17);
+
+  --check-green: #b9f227;
+  --check-green-soft: rgba(185, 242, 39, 0.14);
+
+  --check-blue: #2563eb;
+  --check-blue-soft: rgba(37, 99, 235, 0.09);
+
+  --check-red: #dc2626;
+  --check-red-soft: rgba(220, 38, 38, 0.09);
+
+  --check-orange: #d97706;
+  --check-orange-soft: rgba(217, 119, 6, 0.10);
+
+  --check-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.055);
+
+  --check-shadow-hover:
+    0 20px 55px rgba(0, 0, 0, 0.09);
+
+  --check-display:
+    "Space Grotesk",
+    Inter,
+    system-ui,
+    sans-serif;
+
+  --check-body:
+    "DM Sans",
+    Inter,
+    system-ui,
+    sans-serif;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page.check-job-page,
+.page:has(form.card) {
+  min-height: 100vh;
+
+  position: relative;
+
+  width: 100%;
+
+  padding:
+    125px
+    clamp(18px, 6vw, 90px)
+    80px;
+
+  background:
+    var(--check-bg);
+
+  color:
+    var(--check-text);
+
+  font-family:
+    var(--check-body);
+
+  isolation: isolate;
+
+  overflow: hidden;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* =========================================================
+   ANIMATED GRID
+========================================================= */
+
+.page.check-job-page::before,
+.page:has(form.card)::before {
+  content: "";
+
+  position: absolute;
+
+  z-index: -2;
+
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.032) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.032) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    48px 48px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      black 0%,
+      transparent 90%
+    );
+
+  animation:
+    checkGridMove
+    30s
+    linear
+    infinite;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   AMBIENT LIGHT
+========================================================= */
+
+.page.check-job-page::after,
+.page:has(form.card)::after {
+  content: "";
+
+  position: absolute;
+
+  z-index: -1;
+
+  width: 450px;
+  height: 450px;
+
+  top: -230px;
+  right: -170px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(185, 242, 39, 0.12);
+
+  filter:
+    blur(110px);
+
+  animation:
+    checkAmbient
+    13s
+    ease-in-out
+    infinite
+    alternate;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   DIRECT CHILD CONTENT
+========================================================= */
+
+.page.check-job-page > *,
+.page:has(form.card) > * {
+  position: relative;
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   PAGE TITLE
+========================================================= */
+
+.page.check-job-page > h1,
+.page:has(form.card) > h1 {
+  width:
+    min(100%, 1100px);
+
+  margin:
+    0
+    auto;
+
+  font-family:
+    var(--check-display);
+
+  font-size:
+    clamp(
+      4rem,
+      8vw,
+      7.8rem
+    );
+
+  font-weight:
+    600;
+
+  line-height:
+    0.86;
+
+  letter-spacing:
+    -0.075em;
+
+  color:
+    var(--check-black);
+
+  animation:
+    checkTitleIn
+    750ms
+    cubic-bezier(.16, 1, .3, 1)
+    both;
+}
+
+
+/* =========================================================
+   PAGE DESCRIPTION
+========================================================= */
+
+.page.check-job-page > h1 + p,
+.page:has(form.card) > h1 + p {
+  width:
+    min(100%, 650px);
+
+  margin:
+    25px
+    auto
+    0;
+
+  color:
+    var(--check-muted);
+
+  font-size:
+    15px;
+
+  line-height:
+    1.65;
+
+  animation:
+    checkFadeIn
+    800ms
+    100ms
+    ease
+    both;
+}
+
+
+/* =========================================================
+   CHECK FORM
+========================================================= */
+
+.page.check-job-page > form.card,
+.page:has(form.card) > form.card {
+  width:
+    min(100%, 1000px);
+
+  margin:
+    42px
+    auto
+    0 !important;
+
+  padding:
+    38px;
+
+  position:
+    relative;
+
+  background:
+    rgba(255, 255, 255, 0.72);
+
+  border:
+    1px solid
+    var(--check-border-strong);
+
+  border-radius:
+    22px;
+
+  box-shadow:
+    var(--check-shadow);
+
+  backdrop-filter:
+    blur(20px);
+
+  -webkit-backdrop-filter:
+    blur(20px);
+
+  animation:
+    formEntrance
+    800ms
+    120ms
+    cubic-bezier(.16, 1, .3, 1)
+    both;
+}
+
+
+/* green top accent */
+
+.page.check-job-page > form.card::before,
+.page:has(form.card) > form.card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 35px;
+
+  width: 70px;
+
+  height: 4px;
+
+  border-radius:
+    0 0 6px 6px;
+
+  background:
+    var(--check-green);
+}
+
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+.page.check-job-page form.card label,
+.page:has(form.card) form.card label {
+  display:
+    block;
+
+  margin:
+    0
+    0
+    8px;
+
+  color:
+    var(--check-black);
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.075em;
+
+  text-transform:
+    uppercase;
+}
+
+
+/* spacing between form fields */
+
+.page.check-job-page form.card label:not(:first-child),
+.page:has(form.card) form.card label:not(:first-child) {
+  margin-top:
+    22px;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.page.check-job-page form.card input,
+.page:has(form.card) form.card input {
+  width:
+    100%;
+
+  height:
+    56px;
+
+  padding:
+    0
+    16px;
+
+  border:
+    1px solid
+    var(--check-border-strong);
+
+  border-radius:
+    11px;
+
+  outline:
+    none;
+
+  background:
+    rgba(255, 255, 255, 0.7);
+
+  color:
+    var(--check-text);
+
+  font-size:
+    14px;
+
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+
+.page.check-job-page form.card input::placeholder,
+.page:has(form.card) form.card input::placeholder {
+  color:
+    #aaa9a3;
+}
+
+
+.page.check-job-page form.card input:hover,
+.page:has(form.card) form.card input:hover {
+  background:
+    #ffffff;
+
+  border-color:
+    rgba(20, 20, 20, 0.23);
+}
+
+
+.page.check-job-page form.card input:focus,
+.page:has(form.card) form.card input:focus {
+  background:
+    #ffffff;
+
+  border-color:
+    var(--check-black);
+
+  box-shadow:
+    0 0 0 3px
+    var(--check-green-soft);
+
+  transform:
+    translateY(-1px);
+}
+
+
+/* =========================================================
+   JOB DESCRIPTION TEXTAREA
+========================================================= */
+
+.page.check-job-page form.card textarea,
+.page:has(form.card) form.card textarea {
+  width:
+    100%;
+
+  min-height:
+    280px;
+
+  padding:
+    18px;
+
+  resize:
+    vertical;
+
+  border:
+    1px solid
+    var(--check-border-strong);
+
+  border-radius:
+    13px;
+
+  outline:
+    none;
+
+  background:
+    rgba(255, 255, 255, 0.82);
+
+  color:
+    var(--check-text);
+
+  font-family:
+    var(--check-body);
+
+  font-size:
+    14px;
+
+  line-height:
+    1.65;
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+
+.page.check-job-page form.card textarea::placeholder,
+.page:has(form.card) form.card textarea::placeholder {
+  color:
+    #aaa9a3;
+}
+
+
+.page.check-job-page form.card textarea:hover,
+.page:has(form.card) form.card textarea:hover {
+  background:
+    #ffffff;
+
+  border-color:
+    rgba(20, 20, 20, 0.23);
+}
+
+
+.page.check-job-page form.card textarea:focus,
+.page:has(form.card) form.card textarea:focus {
+  background:
+    #ffffff;
+
+  border-color:
+    var(--check-black);
+
+  box-shadow:
+    0 0 0 3px
+    var(--check-green-soft);
+}
+
+
+/* scrollbar */
+
+.page.check-job-page textarea::-webkit-scrollbar,
+.page:has(form.card) textarea::-webkit-scrollbar {
+  width:
+    7px;
+}
+
+
+.page.check-job-page textarea::-webkit-scrollbar-thumb,
+.page:has(form.card) textarea::-webkit-scrollbar-thumb {
+  background:
+    #c9c9c3;
+
+  border-radius:
+    10px;
+}
+
+
+/* =========================================================
+   CHECK BUTTON
+========================================================= */
+
+.page.check-job-page form.card button,
+.page:has(form.card) form.card button {
+  width:
+    100%;
+
+  height:
+    58px;
+
+  margin-top:
+    25px;
+
+  border:
+    1px solid
+    var(--check-black);
+
+  border-radius:
+    11px;
+
+  background:
+    var(--check-black);
+
+  color:
+    #ffffff;
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.11em;
+
+  text-transform:
+    uppercase;
+
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.page.check-job-page form.card button:hover:not(:disabled),
+.page:has(form.card) form.card button:hover:not(:disabled) {
+  background:
+    var(--check-green);
+
+  color:
+    var(--check-black);
+
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 10px 25px
+    rgba(185, 242, 39, 0.22);
+}
+
+
+.page.check-job-page form.card button:active:not(:disabled),
+.page:has(form.card) form.card button:active:not(:disabled) {
+  transform:
+    translateY(0);
+}
+
+
+.page.check-job-page form.card button:disabled,
+.page:has(form.card) form.card button:disabled {
+  opacity:
+    0.45;
+
+  cursor:
+    not-allowed;
+
+  transform:
+    none;
+
+  box-shadow:
+    none;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.page.check-job-page > .error,
+.page:has(form.card) > .error {
+  width:
+    min(100%, 1000px);
+
+  margin:
+    20px
+    auto
+    0;
+
+  padding:
+    14px
+    16px;
+
+  border:
+    1px solid
+    rgba(220, 38, 38, 0.25);
+
+  border-radius:
+    12px;
+
+  background:
+    var(--check-red-soft);
+
+  color:
+    #a51d1d;
+
+  font-size:
+    13px;
+
+  line-height:
+    1.5;
+}
+
+
+/* =========================================================
+   RESULT CARD
+========================================================= */
+
+.check-result,
+.page.check-job-page > section.card,
+.page:has(form.card) > section.card {
+  width:
+    min(100%, 1000px);
+
+  margin:
+    42px
+    auto
+    0 !important;
+
+  padding:
+    38px;
+
+  position:
+    relative;
+
+  background:
+    rgba(255, 255, 255, 0.78);
+
+  border:
+    1px solid
+    var(--check-border-strong);
+
+  border-radius:
+    22px;
+
+  box-shadow:
+    var(--check-shadow);
+
+  backdrop-filter:
+    blur(22px);
+
+  -webkit-backdrop-filter:
+    blur(22px);
+
+  overflow:
+    hidden;
+
+  animation:
+    resultEntrance
+    700ms
+    cubic-bezier(.16, 1, .3, 1)
+    both;
+}
+
+
+/* =========================================================
+   DEFAULT RESULT ACCENT
+========================================================= */
+
+.check-result::before,
+.page.check-job-page > section.card::before,
+.page:has(form.card) > section.card::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width:
+    100%;
+
+  height:
+    5px;
+
+  background:
+    var(--check-blue);
+}
+
+
+/* =========================================================
+   DANGER / SCAM RESULT
+========================================================= */
+
+.check-result.verdict-danger,
+.check-result.verdict-scam {
+  border-color:
+    rgba(220, 38, 38, 0.22);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 247, 247, 0.92),
+      rgba(255, 255, 255, 0.75)
+    );
+}
+
+
+.check-result.verdict-danger::before,
+.check-result.verdict-scam::before {
+  background:
+    var(--check-red);
+}
+
+
+/* =========================================================
+   CAUTION RESULT
+========================================================= */
+
+.check-result.verdict-caution {
+  border-color:
+    rgba(217, 119, 6, 0.25);
+}
+
+
+.check-result.verdict-caution::before {
+  background:
+    var(--check-orange);
+}
+
+
+/* =========================================================
+   LOOKS OK RESULT
+========================================================= */
+
+.check-result.verdict-looks_ok,
+.check-result.verdict-legit {
+  border-color:
+    rgba(37, 99, 235, 0.20);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(247, 250, 255, 0.94),
+      rgba(255, 255, 255, 0.76)
+    );
+}
+
+
+.check-result.verdict-looks_ok::before,
+.check-result.verdict-legit::before {
+  background:
+    var(--check-blue);
+}
+
+
+/* =========================================================
+   RESULT TITLE
+========================================================= */
+
+.check-result h2 {
+  max-width:
+    800px;
+
+  margin:
+    0
+    0
+    18px;
+
+  font-family:
+    var(--check-display);
+
+  font-size:
+    clamp(
+      2rem,
+      4vw,
+      3.4rem
+    );
+
+  font-weight:
+    600;
+
+  line-height:
+    0.95;
+
+  letter-spacing:
+    -0.06em;
+}
+
+
+/* =========================================================
+   RESULT BASIC INFORMATION
+========================================================= */
+
+.check-result > p {
+  margin:
+    8px
+    0;
+
+  color:
+    var(--check-muted);
+
+  font-size:
+    14px;
+
+  line-height:
+    1.6;
+}
+
+
+/* score */
+
+.check-result > p:nth-of-type(1) {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  min-height:
+    38px;
+
+  margin-right:
+    7px;
+
+  padding:
+    0
+    13px;
+
+  border:
+    1px solid
+    var(--check-border);
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(255, 255, 255, 0.7);
+
+  color:
+    var(--check-text);
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+}
+
+
+/* =========================================================
+   RESULT DISCLAIMER
+========================================================= */
+
+.check-result > p:nth-of-type(3) {
+  margin:
+    22px
+    0
+    30px;
+
+  padding:
+    14px
+    16px;
+
+  border:
+    1px solid
+    var(--check-border);
+
+  border-radius:
+    11px;
+
+  background:
+    rgba(255, 255, 255, 0.52);
+
+  color:
+    var(--check-muted);
+
+  font-size:
+    12px;
+}
+
+
+/* =========================================================
+   SECTION HEADINGS
+========================================================= */
+
+.check-result h3 {
+  margin:
+    30px
+    0
+    13px;
+
+  padding-bottom:
+    10px;
+
+  border-bottom:
+    1px solid
+    var(--check-border);
+
+  font-family:
+    var(--check-display);
+
+  font-size:
+    17px;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    -0.025em;
+}
+
+
+/* first h3 */
+
+.check-result h3:first-of-type {
+  margin-top:
+    0;
+}
+
+
+/* =========================================================
+   FLAGS LIST
+========================================================= */
+
+.check-result ul {
+  margin:
+    0;
+
+  padding:
+    0;
+
+  list-style:
+    none;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    8px;
+}
+
+
+.check-result li {
+  position:
+    relative;
+
+  padding:
+    13px
+    15px
+    13px
+    40px;
+
+  border:
+    1px solid
+    var(--check-border);
+
+  border-radius:
+    10px;
+
+  background:
+    rgba(255, 255, 255, 0.6);
+
+  color:
+    var(--check-text);
+
+  font-size:
+    13px;
+
+  line-height:
+    1.5;
+
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+
+.check-result li:hover {
+  transform:
+    translateX(3px);
+
+  background:
+    #ffffff;
+}
+
+
+/* flag bullet */
+
+.check-result li::before {
+  content:
+    "!";
+
+  position:
+    absolute;
+
+  left:
+    14px;
+
+  top:
+    50%;
+
+  transform:
+    translateY(-50%);
+
+  width:
+    19px;
+
+  height:
+    19px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--check-orange-soft);
+
+  color:
+    var(--check-orange);
+
+  font-size:
+    10px;
+
+  font-weight:
+    800;
+}
+
+
+/* =========================================================
+   COMPANY TYPE
+========================================================= */
+
+.check-result h3 + div {
+  padding:
+    17px;
+
+  border:
+    1px solid
+    var(--check-border);
+
+  border-radius:
+    13px;
+
+  background:
+    rgba(255, 255, 255, 0.5);
+}
+
+
+.check-result h3 + div > p {
+  margin:
+    0
+    0
+    14px;
+
+  color:
+    var(--check-text);
+
+  font-size:
+    13px;
+
+  line-height:
+    1.5;
+}
+
+
+/* reasons inside company type */
+
+.check-result h3 + div ul {
+  margin-bottom:
+    15px;
+}
+
+
+/* =========================================================
+   AI SIGNAL
+========================================================= */
+
+.check-result p:has(+ h3) {
+  position:
+    relative;
+}
+
+
+/* =========================================================
+   COMPANY LOOKUP
+========================================================= */
+
+.check-result h3:nth-of-type(2) + div,
+.check-result h3:nth-of-type(3) + div {
+  padding:
+    18px;
+
+  border:
+    1px solid
+    var(--check-border);
+
+  border-radius:
+    13px;
+
+  background:
+    rgba(255, 255, 255, 0.52);
+}
+
+
+.check-result h3:nth-of-type(2) + div p,
+.check-result h3:nth-of-type(3) + div p {
+  margin:
+    5px
+    0;
+
+  color:
+    var(--check-muted);
+
+  font-size:
+    13px;
+
+  line-height:
+    1.55;
+}
+
+
+/* =========================================================
+   MAP AREA
+========================================================= */
+
+.check-result h3:last-of-type {
+  margin-top:
+    35px;
+}
+
+
+/*
+   CompanyMap may render an iframe.
+   These rules style common map outputs.
+*/
+
+.check-result iframe {
+  width:
+    100% !important;
+
+  min-height:
+    390px;
+
+  display:
+    block;
+
+  margin-top:
+    15px;
+
+  border:
+    1px solid
+    var(--check-border-strong) !important;
+
+  border-radius:
+    16px;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.06);
+
+  background:
+    #e8e8e3;
+}
+
+
+/* generic map container */
+
+.check-result .map-container,
+.check-result .company-map,
+.check-result [class*="map"] {
+  width:
+    100%;
+
+  min-height:
+    350px;
+
+  margin-top:
+    15px;
+
+  border:
+    1px solid
+    var(--check-border-strong);
+
+  border-radius:
+    16px;
+
+  overflow:
+    hidden;
+
+  background:
+    #e8e8e3;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   RESULT EMPTY STATES
+========================================================= */
+
+.check-result > p:last-child {
+  color:
+    var(--check-muted);
+
+  font-size:
+    13px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+  .page.check-job-page,
+  .page:has(form.card) {
+    padding:
+      110px
+      25px
+      60px;
+  }
+
+
+  .page.check-job-page > h1,
+  .page:has(form.card) > h1 {
+    font-size:
+      clamp(
+        3.5rem,
+        9vw,
+        6rem
+      );
+  }
+
+
+  .page.check-job-page > form.card,
+  .page:has(form.card) > form.card,
+  .check-result,
+  .page.check-job-page > section.card,
+  .page:has(form.card) > section.card {
+    padding:
+      30px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+  .page.check-job-page,
+  .page:has(form.card) {
+    padding:
+      75px
+      15px
+      40px;
+  }
+
+
+  /* title */
+
+  .page.check-job-page > h1,
+  .page:has(form.card) > h1 {
+    font-size:
+      clamp(
+        3rem,
+        15vw,
+        4.5rem
+      );
+
+    line-height:
+      0.88;
+  }
+
+
+  .page.check-job-page > h1 + p,
+  .page:has(form.card) > h1 + p {
+    margin-top:
+      19px;
+
+    font-size:
+      13px;
+
+    line-height:
+      1.55;
+  }
+
+
+  /* form */
+
+  .page.check-job-page > form.card,
+  .page:has(form.card) > form.card {
+    margin-top:
+      30px !important;
+
+    padding:
+      25px
+      17px;
+
+    border-radius:
+      17px;
+  }
+
+
+  .page.check-job-page form.card label,
+  .page:has(form.card) form.card label {
+    font-size:
+      9px;
+  }
+
+
+  .page.check-job-page form.card label:not(:first-child),
+  .page:has(form.card) form.card label:not(:first-child) {
+    margin-top:
+      19px;
+  }
+
+
+  .page.check-job-page form.card input,
+  .page:has(form.card) form.card input {
+    height:
+      52px;
+
+    font-size:
+      13px;
+  }
+
+
+  /* textarea */
+
+  .page.check-job-page form.card textarea,
+  .page:has(form.card) form.card textarea {
+    min-height:
+      230px;
+
+    padding:
+      15px;
+
+    font-size:
+      13px;
+
+    line-height:
+      1.55;
+  }
+
+
+  /* button */
+
+  .page.check-job-page form.card button,
+  .page:has(form.card) form.card button {
+    height:
+      54px;
+
+    margin-top:
+      20px;
+
+    font-size:
+      10px;
+  }
+
+
+  /* result */
+
+  .check-result,
+  .page.check-job-page > section.card,
+  .page:has(form.card) > section.card {
+    margin-top:
+      30px !important;
+
+    padding:
+      25px
+      17px;
+
+    border-radius:
+      17px;
+  }
+
+
+  .check-result h2 {
+    font-size:
+      clamp(
+        2rem,
+        9vw,
+        3rem
+      );
+
+    line-height:
+      0.95;
+  }
+
+
+  .check-result h3 {
+    margin-top:
+      25px;
+
+    font-size:
+      15px;
+  }
+
+
+  .check-result > p {
+    font-size:
+      12px;
+  }
+
+
+  .check-result li {
+    padding:
+      12px
+      12px
+      12px
+      37px;
+
+    font-size:
+      12px;
+  }
+
+
+  /* map */
+
+  .check-result iframe {
+    min-height:
+      300px;
+
+    border-radius:
+      12px;
+  }
+
+
+  .check-result .map-container,
+  .check-result .company-map,
+  .check-result [class*="map"] {
+    min-height:
+      280px;
+
+    border-radius:
+      12px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .page.check-job-page,
+  .page:has(form.card) {
+    padding:
+      65px
+      12px
+      30px;
+  }
+
+
+  .page.check-job-page > h1,
+  .page:has(form.card) > h1 {
+    font-size:
+      2.8rem;
+  }
+
+
+  .page.check-job-page > form.card,
+  .page:has(form.card) > form.card,
+  .check-result {
+    padding:
+      21px
+      14px;
+  }
+
+
+  .page.check-job-page form.card textarea,
+  .page:has(form.card) form.card textarea {
+    min-height:
+      210px;
+  }
+
+
+  .check-result h2 {
+    font-size:
+      1.9rem;
+  }
+
+
+  .check-result iframe {
+    min-height:
+      250px;
+  }
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes checkGridMove {
+
+  from {
+    background-position:
+      0 0;
+  }
+
+  to {
+    background-position:
+      48px 48px;
+  }
+}
+
+
+@keyframes checkAmbient {
+
+  from {
+    transform:
+      translate(0, 0)
+      scale(1);
+  }
+
+  to {
+    transform:
+      translate(-80px, 80px)
+      scale(1.25);
+  }
+}
+
+
+@keyframes checkTitleIn {
+
+  from {
+    opacity:
+      0;
+
+    transform:
+      translateY(28px);
+  }
+
+  to {
+    opacity:
+      1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+@keyframes checkFadeIn {
+
+  from {
+    opacity:
+      0;
+  }
+
+  to {
+    opacity:
+      1;
+  }
+}
+
+
+@keyframes formEntrance {
+
+  from {
+    opacity:
+      0;
+
+    transform:
+      translateY(35px);
+  }
+
+  to {
+    opacity:
+      1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+@keyframes resultEntrance {
+
+  from {
+    opacity:
+      0;
+
+    transform:
+      translateY(30px);
+  }
+
+  to {
+    opacity:
+      1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.page.check-job-page input:focus-visible,
+.page.check-job-page textarea:focus-visible,
+.page.check-job-page button:focus-visible,
+.page:has(form.card) input:focus-visible,
+.page:has(form.card) textarea:focus-visible,
+.page:has(form.card) button:focus-visible {
+  outline:
+    2px solid
+    var(--check-black);
+
+  outline-offset:
+    3px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.01ms !important;
+  }
+}

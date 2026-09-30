@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import '../styles/Match.css'
 
 type CandidateSkill = {
   term: string;
@@ -69,13 +70,15 @@ export function MatchPage() {
           required
         />
         <label htmlFor="match-resume">Resume PDF (up to 3 MB)</label>
-        <input
+         <input
           id="match-resume"
           type="file"
           accept="application/pdf,.pdf"
           onChange={(event) => setResume(event.target.files?.[0] ?? null)}
           required
-        />
+        /> 
+        
+        
         <button className="btn btn-primary" type="submit" disabled={loading || !resume || jdText.trim().length < 30}>
           {loading ? 'Matching...' : 'Match resume'}
           {loading && <span className="spinner" aria-hidden="true" />}

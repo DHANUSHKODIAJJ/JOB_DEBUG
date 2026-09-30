@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { api } from '../api/client';
 import { CompanyMap } from '../components/CompanyMap';
+import '../styles/Check.css'
 
 type CheckResult = {
     companyName?: string;

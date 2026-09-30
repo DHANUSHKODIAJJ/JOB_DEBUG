@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { listApplications } from '../api/applications';
 import { STATUS_LABELS } from '../lib/constants';
 import type { JobApplication } from '../lib/types';
-
+import '../styles/Application.css'
 export function ApplicationsPage() {
   const [items, setItems] = useState<JobApplication[]>([]);
   const [total, setTotal] = useState(0);

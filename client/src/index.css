@@ -17,6 +17,10 @@
   --r: 8px; --r-sm: 6px;
   --shadow: 0 1px 2px rgba(20, 24, 28, 0.06), 0 2px 6px rgba(20, 24, 28, 0.04);
   --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --deep: #1f2d3d;
+  --deep-2: #2a3b50;
+  --deep-line: #3a4d66;
+  --tint: #cfe0f5;
 }
 
 /* ---------- Base ---------- */
@@ -126,22 +130,6 @@ button:focus-visible, a:focus-visible {
   margin-bottom: var(--s2);
 }
 
-/* ---------- Login: hero, curve, metrics ---------- */
-.hero { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s8); align-items: center; }
-@media (max-width: 720px) { .hero { grid-template-columns: 1fr; } }
-.curve { display: block; width: 100%; height: 48px; margin-top: var(--s8); }
-.curve path { fill: var(--panel); }
-.metrics { background: var(--panel); border-top: 1px solid var(--line); padding: var(--s8) 0; }
-.metrics-row {
-  max-width: 1040px; margin: 0 auto; padding: 0 var(--s4);
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s6);
-}
-@media (max-width: 720px) { .metrics-row { grid-template-columns: 1fr; } }
-.metric-num {
-  display: block; font-size: 3.5rem; font-weight: 700; line-height: 1;
-  color: var(--accent); font-variant-numeric: tabular-nums;
-}
-
 /* ---------- Illustration ---------- */
 .ill { width: 100%; height: auto; }
 .ill .draw {
@@ -176,7 +164,6 @@ button:focus-visible, a:focus-visible {
   font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
   letter-spacing: 0.08em; color: var(--accent);
 }
-.hero h1 { font-size: 2rem; }
 .btn-block { width: 100%; }
 .form-error {
   margin: 0 0 var(--s4); padding: var(--s2) var(--s3);
@@ -189,7 +176,6 @@ button:focus-visible, a:focus-visible {
 .form[aria-busy="true"], form[aria-busy="true"] { cursor: progress; }
 
 /* ================= Login redesign ================= */
-:root { --deep: #1f2d3d; --deep-2: #2a3b50; --deep-line: #3a4d66; --tint: #cfe0f5; }
 
 /* Top nav: works on your current markup, no App.tsx change needed */
 nav {
@@ -209,7 +195,7 @@ nav button { font: inherit; background: none; border: 0; color: var(--ink-2); cu
 
 /* Hero */
 .login-page { padding-top: var(--s12); padding-bottom: var(--s6); }
-.hero { grid-template-columns: 1.15fr 0.85fr; gap: var(--s12); align-items: start; }
+.hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: var(--s12); align-items: start; }
 .hero h1 { font-size: clamp(2rem, 4.5vw, 2.75rem); letter-spacing: -0.02em; max-width: 14ch; }
 .lede { font-size: 1.125rem; color: var(--ink-2); max-width: 44ch; }
 .legend { display: flex; flex-wrap: wrap; gap: var(--s2); margin: var(--s4) 0 var(--s6); }
@@ -233,10 +219,13 @@ nav button { font: inherit; background: none; border: 0; color: var(--ink-2); cu
 .pw-toggle:hover { background: var(--bg); }
 
 /* Curve into the dark metrics section */
-.curve { margin: var(--s6) 0 -1px; height: 56px; }
+.curve { display: block; width: 100%; height: 56px; margin: var(--s6) 0 -1px; }
 .curve path { fill: var(--deep); }
 .metrics { background: var(--deep); border-top: 0; padding: var(--s6) 0 var(--s12); }
-.metrics-row { gap: var(--s4); }
+.metrics-row {
+  max-width: 1040px; margin: 0 auto; padding: 0 var(--s4);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s4);
+}
 .metric-card {
   background: var(--deep-2); border: 1px solid var(--deep-line);
   border-radius: var(--r); padding: var(--s6); color: #c9d3df;
@@ -248,16 +237,17 @@ nav button { font: inherit; background: none; border: 0; color: var(--ink-2); cu
 .metric-card:hover { transform: translateY(-3px); border-color: var(--tint); }
 .metric-card h3 { color: #fff; font-size: 1rem; margin: var(--s3) 0 var(--s2); }
 .metric-card p { margin: 0; font-size: 0.9375rem; }
-.metric-num { color: var(--tint); font-size: 4rem; }
+.metric-num {
+  display: block; font-size: 4rem; font-weight: 700; line-height: 1;
+  color: var(--tint); font-variant-numeric: tabular-nums;
+}
 
 @media (max-width: 720px) {
   .hero { grid-template-columns: 1fr; gap: var(--s8); }
+  .metrics-row { grid-template-columns: 1fr; }
   .hero-art { max-width: 220px; }
-  nav { gap: var(--s4); overflow-x: auto; }
+  nav { gap: var(--s4); }
 }
-
-
-
 
 /* ================= Auth page (reference style) ================= */
 .auth-shell {
@@ -292,14 +282,8 @@ body:has(.auth-shell) nav { display: none; }
   padding: 12px var(--s4); margin-bottom: var(--s4);
 }
 .auth-form-side input:focus-visible { outline: 2px solid var(--mauve); outline-offset: 1px; }
-.pw-row { position: relative; }
-.pw-row input { padding-right: 64px; }
-.pw-toggle {
-  position: absolute; right: var(--s2); top: 6px;
-  font: inherit; font-size: 0.8125rem; font-weight: 600; color: var(--mauve);
-  background: none; border: 0; cursor: pointer; padding: var(--s1) var(--s2); border-radius: var(--r-sm);
-}
-.pw-toggle:hover { background: var(--card); }
+.auth-form-side .pw-toggle { color: var(--mauve); }
+.auth-form-side .pw-toggle:hover { background: var(--card); }
 
 .auth-btn {
   width: 100%; font: inherit; font-weight: 600; cursor: pointer;

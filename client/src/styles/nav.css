@@ -1,0 +1,495 @@
+/* =========================================================
+   JOB DEBUG — DESKTOP NAV
+   ========================================================= */
+
+nav {
+  position: sticky;
+  top: 20px;
+  z-index: 1000;
+
+  width: min(94%, 1240px);
+  min-height: 68px;
+
+  margin: 20px auto 0;
+  padding: 8px 10px 8px 24px;
+
+  display: flex;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.72),
+      rgba(255, 255, 255, 0.42)
+    );
+
+  backdrop-filter: blur(24px) saturate(135%);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
+
+  border: 1px solid rgba(17, 17, 17, 0.10);
+  border-radius: 24px;
+
+  box-shadow:
+    0 18px 45px rgba(17, 17, 17, 0.07),
+    0 3px 12px rgba(17, 17, 17, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  font-family: "DM Sans", sans-serif;
+}
+
+
+/* =========================================================
+   NAV CONTENT
+   ========================================================= */
+
+.nav-content {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* =========================================================
+   USER EMAIL
+   ========================================================= */
+
+nav .stat-label {
+  flex-shrink: 0;
+
+  margin: 0 18px 0 0;
+  padding: 10px 14px;
+
+  max-width: 210px;
+
+  color: #686862;
+
+  background: rgba(243, 242, 237, 0.72);
+
+  border: 1px solid rgba(17, 17, 17, 0.07);
+  border-radius: 14px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+nav a {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 46px;
+  padding: 0 17px;
+
+  color: #44443f;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  border-radius: 14px;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+nav a:hover {
+  color: #111;
+
+  background: rgba(185, 242, 39, 0.18);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   LIME ACTIVE INDICATOR
+   ========================================================= */
+
+nav a::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: 6px;
+  left: 50%;
+
+  width: 0;
+  height: 3px;
+
+  background: #b9f227;
+
+  border-radius: 999px;
+
+  transform: translateX(-50%);
+
+  transition: width 0.2s ease;
+}
+
+nav a:hover::after {
+  width: 18px;
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+.logout-button {
+  margin-left: auto !important;
+
+  min-height: 46px;
+  padding: 0 19px;
+
+  border: 1px solid #111;
+  border-radius: 14px;
+
+  background: #111;
+  color: #fff;
+
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.logout-button:hover {
+  background: #b9f227;
+  border-color: #b9f227;
+  color: #111;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   HAMBURGER — HIDDEN ON DESKTOP
+   ========================================================= */
+
+.mobile-menu-toggle {
+  display: none;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  nav {
+    position: fixed;
+
+    top: 14px;
+    right: 14px;
+    left: auto;
+
+    width: auto;
+    min-height: 52px;
+
+    margin: 0;
+    padding: 5px;
+
+    display: flex;
+
+    background:
+      rgba(255, 255, 255, 0.68);
+
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    border-radius: 17px;
+
+    box-shadow:
+      0 12px 35px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+    transition:
+      width 0.3s ease,
+      height 0.3s ease,
+      border-radius 0.3s ease;
+  }
+
+
+  /* =====================================================
+     HAMBURGER BUTTON
+     ===================================================== */
+
+  .mobile-menu-toggle {
+    width: 42px;
+    height: 42px;
+
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    border: 0;
+    border-radius: 12px;
+
+    background: #111;
+
+    cursor: pointer;
+
+    z-index: 10;
+  }
+
+
+  .mobile-menu-toggle span {
+    display: block;
+
+    width: 18px;
+    height: 2px;
+
+    background: #fff;
+
+    border-radius: 999px;
+
+    transition:
+      transform 0.25s ease,
+      opacity 0.2s ease;
+  }
+
+
+  /* =====================================================
+     HAMBURGER → X
+     ===================================================== */
+
+  nav.mobile-menu-open .mobile-menu-toggle span:nth-child(1),
+  nav.menu-open .mobile-menu-toggle span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  nav.mobile-menu-open .mobile-menu-toggle span:nth-child(2),
+  nav.menu-open .mobile-menu-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+
+  nav.mobile-menu-open .mobile-menu-toggle span:nth-child(3),
+  nav.menu-open .mobile-menu-toggle span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+
+  /* =====================================================
+     MOBILE MENU
+     ===================================================== */
+
+  .nav-content {
+    position: absolute;
+
+    top: calc(100% + 10px);
+    right: 0;
+
+    width: min(280px, calc(100vw - 28px));
+
+    padding: 12px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 5px;
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.94),
+        rgba(255, 255, 255, 0.82)
+      );
+
+    backdrop-filter: blur(30px) saturate(140%);
+    -webkit-backdrop-filter: blur(30px) saturate(140%);
+
+    border: 1px solid rgba(17, 17, 17, 0.10);
+
+    border-radius: 22px;
+
+    box-shadow:
+      0 25px 65px rgba(17, 17, 17, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform:
+      translateY(-10px)
+      scale(0.96);
+
+    transform-origin: top right;
+
+    pointer-events: none;
+
+    z-index: 1001;
+
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease,
+      visibility 0.25s ease;
+  }
+
+
+  /* =====================================================
+     OPEN MENU
+     ===================================================== */
+
+  nav.mobile-menu-open .nav-content,
+  nav.menu-open .nav-content {
+    opacity: 1;
+    visibility: visible;
+
+    transform:
+      translateY(0)
+      scale(1);
+
+    pointer-events: auto;
+  }
+
+
+  /* =====================================================
+     EMAIL
+     ===================================================== */
+
+  nav .stat-label {
+    width: auto;
+    max-width: none;
+
+    margin: 0 0 6px;
+
+    padding: 11px 12px;
+
+    font-size: 10px;
+
+    border-radius: 13px;
+  }
+
+
+  /* =====================================================
+     MOBILE LINKS
+     ===================================================== */
+
+  nav a {
+    width: 100%;
+    min-height: 46px;
+
+    box-sizing: border-box;
+
+    justify-content: flex-start;
+
+    padding: 0 14px;
+
+    border-radius: 13px;
+
+    font-size: 12px;
+  }
+
+
+  nav a:hover {
+    transform: translateX(3px);
+
+    background: rgba(185, 242, 39, 0.20);
+  }
+
+
+  nav a::after {
+    left: auto;
+    right: 13px;
+
+    bottom: 50%;
+
+    width: 0;
+    height: 5px;
+
+    transform: translateY(50%);
+  }
+
+
+  nav a:hover::after {
+    width: 5px;
+  }
+
+
+  /* =====================================================
+     MOBILE LOGOUT
+     ===================================================== */
+
+  .logout-button {
+    width: 100%;
+
+    min-height: 46px;
+
+    margin: 7px 0 0 !important;
+
+    border-radius: 13px;
+
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+  nav {
+    top: 10px;
+    right: 10px;
+  }
+
+  .mobile-menu-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-content {
+    top: calc(100% + 8px);
+    right: 0;
+
+    width: min(280px, calc(100vw - 20px));
+
+    border-radius: 20px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  nav,
+  nav a,
+  nav button,
+  nav a::after,
+  .nav-content,
+  .mobile-menu-toggle span {
+    transition: none;
+  }
+}
